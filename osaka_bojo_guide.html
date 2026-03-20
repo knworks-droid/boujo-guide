@@ -1,0 +1,611 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>大阪府 防除指針ガイド</title>
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@700&family=Noto+Sans+JP:wght@400;500;600&display=swap');
+*{margin:0;padding:0;box-sizing:border-box}
+:root{--soil:#3d2b1f;--bark:#6b4226;--clay:#9e6b3f;--cream:#f5f0e6;--blue:#2c5f8a;--sky:#d4e9f7;--card:#fdfaf4;--bdr:#e0d4be;--straw:#c9a96e;}
+body{font-family:'Noto Sans JP',sans-serif}
+#cover{min-height:100vh;background:linear-gradient(160deg,#2a5c2a 0%,#3d7a3d 50%,#5a9e5a 100%);display:flex;flex-direction:column;align-items:center;justify-content:center;position:relative;overflow:hidden;}
+.c-box{position:relative;text-align:center;padding:40px;width:100%;max-width:480px}
+.c-eyebrow{font-size:11px;font-weight:500;color:rgba(255,255,255,.45);letter-spacing:3px;text-transform:uppercase;margin-bottom:20px;}
+.c-title{font-family:'Noto Serif JP',serif;font-size:32px;font-weight:700;color:#fff;line-height:1.6;margin-bottom:56px;}
+.c-btn{display:inline-flex;align-items:center;gap:10px;background:#fff;color:#2d5a2d;font-family:'Noto Sans JP',sans-serif;font-size:14px;font-weight:700;padding:14px 36px;border-radius:40px;border:none;cursor:pointer;letter-spacing:1px;box-shadow:0 6px 24px rgba(0,0,0,.2);transition:all .3s;}
+.c-btn:hover{transform:translateY(-2px);box-shadow:0 10px 32px rgba(0,0,0,.25)}
+#app{display:none;min-height:100vh;background:#f0ebe0}
+.a-header{background:linear-gradient(135deg,var(--soil),var(--bark));color:var(--cream);position:sticky;top:0;z-index:100;box-shadow:0 4px 20px rgba(61,43,31,.4);}
+.a-top{display:flex;align-items:center;justify-content:space-between;padding:14px 16px 10px}
+.a-title{font-family:'Noto Serif JP',serif;font-size:18px;font-weight:700;color:var(--cream)}
+.a-sub{font-size:11px;color:var(--straw);opacity:.8}
+.a-back{background:rgba(255,255,255,.12);border:1px solid rgba(255,255,255,.2);color:var(--cream);padding:6px 12px;border-radius:8px;font-size:12px;cursor:pointer;font-family:'Noto Sans JP',sans-serif;}
+.crop-tabs{display:flex;gap:6px;padding:8px 16px 14px;overflow-x:auto;scrollbar-width:none}
+.crop-tabs::-webkit-scrollbar{display:none}
+.ctab{flex-shrink:0;padding:7px 16px;background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.2);border-radius:20px;color:rgba(255,255,255,.75);font-family:'Noto Sans JP',sans-serif;font-size:13px;font-weight:500;cursor:pointer;transition:all .2s;white-space:nowrap;}
+.ctab.on{background:rgba(255,255,255,.92);color:var(--bark);font-weight:600;border-color:transparent;box-shadow:0 2px 12px rgba(0,0,0,.2)}
+.a-body{max-width:900px;margin:0 auto;padding:20px 16px 40px}
+.def-box{background:var(--sky);border-left:4px solid var(--blue);border-radius:0 10px 10px 0;padding:12px 16px;margin-bottom:20px;font-size:13px;color:#2c4a6e;line-height:1.7;}
+.s-card{background:var(--card);border-radius:14px;border:1px solid var(--bdr);padding:20px;box-shadow:0 2px 12px rgba(61,43,31,.07);}
+.s-title{font-size:13px;font-weight:700;color:#7a6050;text-transform:uppercase;letter-spacing:.8px;margin-bottom:12px}
+.mgrid{display:grid;grid-template-columns:repeat(12,1fr);gap:4px}
+.mc{aspect-ratio:1;border-radius:6px;border:1.5px solid var(--bdr);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:600;cursor:pointer;color:#aaa;background:#fff;user-select:none;transition:all .2s;}
+.mc.on{background:var(--bark);border-color:var(--bark);color:#fff}
+.mc:hover:not(.on){border-color:var(--clay);color:var(--clay)}
+.r-count{font-size:12px;color:#9a8070;margin:16px 0 10px;min-height:18px}
+.rcard{background:var(--card);border-radius:12px;border:1px solid var(--bdr);overflow:hidden;margin-bottom:12px;box-shadow:0 2px 10px rgba(61,43,31,.06);}
+.rhead{display:flex;align-items:center;gap:8px;padding:14px 16px;cursor:pointer;}
+.badge{font-size:10px;font-weight:700;padding:3px 8px;border-radius:12px;flex-shrink:0}
+.bd{background:#fde8e5;color:#c0392b}
+.bp{background:#e8f5e4;color:#2e7d32}
+.rname{font-size:15px;font-weight:600;color:var(--soil);flex:1}
+.spills{display:flex;gap:2px;flex-wrap:wrap}
+.sp{font-size:9px;font-weight:600;padding:2px 5px;border-radius:4px;background:#f0e8d8;color:var(--clay)}
+.sp.hit{background:var(--bark);color:#fff}
+.chev{color:#b0a090;font-size:12px;transition:transform .3s;flex-shrink:0}
+.rcard.open .chev{transform:rotate(180deg)}
+.rbody{display:none;padding:0 16px 16px;border-top:1px solid var(--bdr)}
+.rcard.open .rbody{display:block}
+.vpills{display:flex;gap:6px;flex-wrap:wrap;padding-top:12px;margin-bottom:4px}
+.vp{font-size:11px;padding:3px 10px;border-radius:12px;background:#f5f0e6;border:1px solid var(--bdr);color:#7a6050}
+.nsec{padding:10px 0 6px}
+.slabel{font-size:11px;font-weight:700;color:#9a8070;text-transform:uppercase;letter-spacing:.8px;margin-bottom:8px}
+.ni{display:flex;gap:8px;font-size:12px;color:#5a4a3a;line-height:1.7;margin-bottom:4px}
+.ni::before{content:"※";color:var(--clay);flex-shrink:0}
+.psec{margin-top:10px}
+.ptitle{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:700;margin-bottom:8px;padding:6px 10px;border-radius:6px}
+.prev{background:#e8f0fa;color:#2c5f8a}
+.pact{background:#fff3e0;color:#e65100}
+.pitem{background:#fff;border:1px solid var(--bdr);border-radius:8px;padding:10px 12px;margin-bottom:6px;display:grid;grid-template-columns:1fr auto;gap:3px;}
+.pname{font-size:13px;font-weight:600;color:var(--soil)}
+.ptimes{font-size:11px;font-weight:600;color:#fff;background:var(--clay);padding:2px 7px;border-radius:10px;grid-row:1/span 2;align-self:center;white-space:nowrap;}
+.ptimes.ul{background:#9a8070}
+.pdet{font-size:11px;color:#8a7060;line-height:1.5}
+.nopest{font-size:12px;color:#9a8070;padding:8px 0}
+@media(max-width:480px){.c-title{font-size:26px}.a-body{padding:16px 12px 40px}.mc{font-size:9px}}
+
+</style>
+</head>
+<body>
+
+<div id="cover">
+  <div class="c-box">
+    <div class="c-eyebrow">大阪府 防除指針</div>
+    <div class="c-title">農薬・防除情報<br>検索ツール</div>
+    <button class="c-btn" onclick="enterApp()">🌿 ガイドを開く →</button>
+  </div>
+</div>
+
+<div id="app">
+  <div class="a-header">
+    <div class="a-top">
+      <div>
+        <div class="a-title">🌿 大阪府 防除指針</div>
+        <div class="a-sub">月別 病害虫・農薬検索</div>
+      </div>
+      <button class="a-back" onclick="goBack()">← 表紙</button>
+    </div>
+    <div class="crop-tabs" id="crop-tabs"></div>
+  </div>
+  <div class="a-body">
+    <div id="def-area"></div>
+    <div class="s-card">
+      <div class="s-title">📅 発生月で検索（複数選択可）</div>
+      <div class="mgrid" id="mgrid"></div>
+      <div class="r-count" id="r-count"></div>
+      <div id="results"></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const CROPS = [
+  { id:"tomato", name:"トマト", emoji:"🍅",
+    diseases:[
+      {name:"疫病",seasons:[6,7,8,9,10],varieties:["露地早熟","ハウス半促成","加温周年"],
+       notes:["低温（20℃前後）で多雨が続くと発生が多くなる","予防的散布が大切である","急激に発病が広がるので、初発をよく確認し、防除を徹底する"],
+       preventive:[{name:"ジマンダイセン水和剤",d:"800倍",t:"前日",n:2},{name:"ペンコゼブ水和剤",d:"800倍",t:"前日",n:2},{name:"ランマンフロアブル",d:"1000～2000倍",t:"前日",n:4},{name:"ピシロックフロアブル",d:"1000倍",t:"前日",n:3}],
+       active:[{name:"プロポーズ顆粒水和剤",d:"1000～1500倍",t:"前日",n:3},{name:"リドミルゴールドMZ",d:"1000倍",t:"前日",n:2},{name:"ホライズンドライフロアブル",d:"1500～2500倍",t:"前日",n:3}]},
+      {name:"葉かび病",seasons:[4,5,6,7,8,9,10,11],varieties:["露地早熟","ハウス半促成","加温周年"],
+       notes:["過湿条件で発生する","多発時には防除が困難なため、予防的散布が大切である","薬剤耐性菌が出現しやすいのでローテーション散布を行う"],
+       preventive:[{name:"ジマンダイセン水和剤",d:"800倍",t:"前日",n:2},{name:"ペンコゼブ水和剤",d:"800倍",t:"前日",n:2},{name:"ダコニール1000",d:"1000倍",t:"前日",n:4},{name:"ベルクートフロアブル",d:"2000～4000倍",t:"前日",n:3}],
+       active:[{name:"プロポーズ顆粒水和剤",d:"1000倍",t:"前日",n:3},{name:"アミスター20フロアブル",d:"2000倍",t:"前日",n:4},{name:"アフェットフロアブル",d:"2000倍",t:"前日",n:3}]},
+      {name:"すすかび病",seasons:[4,5,6,7,8,9,10,11],varieties:["露地早熟","ハウス半促成","加温周年"],
+       notes:["過湿条件で発生する","葉かび病と病徴が似ているため注意"],
+       preventive:[{name:"ダコニール1000",d:"1000倍",t:"前日",n:4},{name:"ベルクートフロアブル",d:"2000～4000倍",t:"前日",n:3},{name:"クプロシールド",d:"1000倍",t:"発病前～発病初期",n:0}],
+       active:[{name:"トリフミン水和剤",d:"3000倍",t:"前日",n:5},{name:"ファンタジスタ顆粒水和剤",d:"2000～3000倍",t:"前日",n:3},{name:"ケンジャフロアブル",d:"1500倍",t:"前日",n:3}]},
+      {name:"灰色かび病",seasons:[2,3,4,11,12],varieties:["ハウス半促成","加温周年"],
+       notes:["低温（20℃前後）で多湿時に発生が多い","薬剤耐性菌が出現しやすいのでローテーション散布を行う"],
+       preventive:[{name:"ベルクートフロアブル",d:"2000～4000倍",t:"前日",n:3},{name:"セイビアーフロアブル20",d:"1000～1500倍",t:"前日",n:3},{name:"ボトキラー水和剤",d:"1000倍",t:"発病前～発病初期",n:0}],
+       active:[{name:"ゲッター水和剤",d:"1000～1500倍",t:"前日",n:5},{name:"ロブラール水和剤",d:"1000～1500倍",t:"前日",n:3},{name:"ファンタジスタ顆粒水和剤",d:"2000～3000倍",t:"前日",n:3},{name:"ピクシオDF",d:"2000倍",t:"前日",n:4}]},
+      {name:"うどんこ病",seasons:[3,4,5,9,10,11],varieties:["露地早熟","ハウス半促成","加温周年"],
+       notes:["乾燥条件・日照不足で気温20～25℃で発生が増える","予防的散布が大切である"],
+       preventive:[{name:"ダコニール1000",d:"1000倍",t:"前日",n:4},{name:"ベルクートフロアブル",d:"2000～4000倍",t:"前日",n:3}],
+       active:[{name:"アフェットフロアブル",d:"2000～4000倍",t:"前日",n:3},{name:"パルミノ",d:"2000倍",t:"前日",n:5},{name:"パンチョTF顆粒水和剤",d:"2000倍",t:"前日",n:2},{name:"ショウチノスケフロアブル",d:"2000倍",t:"前日",n:2}]},
+      {name:"菌核病",seasons:[3,4,10,11,12],varieties:["ハウス半促成","加温周年"],
+       notes:["気温20℃前後、多湿条件で発生が多い"],preventive:[],
+       active:[{name:"アフェットフロアブル",d:"2000倍",t:"前日",n:3},{name:"ゲッター水和剤",d:"1000～1500倍",t:"前日",n:5},{name:"ファンタジスタ顆粒水和剤",d:"2000～3000倍",t:"前日",n:3},{name:"スクレアフロアブル",d:"2000倍",t:"前日",n:3},{name:"ピクシオDF",d:"2000倍",t:"前日",n:4}]},
+      {name:"青枯病",seasons:[7,8,9],varieties:["露地早熟","ハウス半促成"],
+       notes:["7～8月の高温時に発生が多い","予防・管理が中心（土壌消毒、抵抗性台木）"],preventive:[],active:[]},
+      {name:"萎凋病",seasons:[5,6,7,8,9],varieties:["露地早熟","ハウス半促成"],
+       notes:["地温25℃以上で発生が多くなる","予防・管理が中心（種子消毒、土壌消毒、耐病性品種）"],preventive:[],active:[]},
+      {name:"かいよう病",seasons:[5,6,7,8,9,10],varieties:["露地早熟","ハウス半促成"],
+       notes:["土壌伝染及び種子伝染する"],preventive:[],
+       active:[{name:"カスミンボルドー",d:"1000倍",t:"前日",n:5},{name:"カッパーシン水和剤",d:"1000倍",t:"前日",n:5},{name:"マイコシールド",d:"1000～2000倍",t:"収穫開始7日前",n:2}]},
+      {name:"輪紋病",seasons:[6,7,8,9],varieties:["露地早熟"],
+       notes:["高温乾燥時に発生が多い","予防的散布が大切である"],
+       preventive:[{name:"ジマンダイセン水和剤",d:"800倍",t:"前日",n:2},{name:"ペンコゼブフロアブル",d:"1000倍",t:"前日",n:2}],
+       active:[{name:"ロブラール水和剤",d:"1000倍",t:"前日",n:3},{name:"カスミンボルドー",d:"1000倍",t:"前日",n:5},{name:"カッパーシン水和剤",d:"1000倍",t:"前日",n:5},{name:"ネクスターフロアブル",d:"1000倍",t:"前日",n:3}]}
+    ],
+    pests:[
+      {name:"コナジラミ類",seasons:[4,5,6,7,8,9,10,11],varieties:["露地早熟","ハウス半促成","加温周年"],
+       notes:["オンシツコナジラミ、タバココナジラミが発生","タバココナジラミはトマト黄化葉巻ウイルスを伝搬"],
+       preventive:[{name:"スタークル粒剤",d:"培土混和1L当たり10g",t:"は種前",n:1},{name:"アルバリン粒剤",d:"培土混和1L当たり10g",t:"は種前",n:1}],
+       active:[{name:"アグリメック",d:"500～1000倍",t:"前日",n:3},{name:"アファーム乳剤",d:"2000倍",t:"前日",n:5},{name:"グレーシア乳剤",d:"2000倍",t:"前日",n:2},{name:"ベストガード水溶剤",d:"1000～2000倍",t:"前日",n:3},{name:"ディアナSC",d:"2500倍",t:"前日",n:2}]},
+      {name:"アブラムシ類",seasons:[3,4,5,9,10,11,12],varieties:["露地早熟","ハウス半促成","加温周年"],
+       notes:["多発するとすす病が発生しやすくなる","薬剤抵抗性が生じやすいのでローテーション散布を行う"],
+       preventive:[{name:"スタークル粒剤",d:"1g/株 植穴土壌混和",t:"定植時",n:1},{name:"ダントツ粒剤",d:"1g/株 株元処理",t:"育苗期",n:1}],
+       active:[{name:"コルト顆粒水和剤",d:"4000倍",t:"前日",n:3},{name:"トランスフォームフロアブル",d:"2000倍",t:"前日",n:2},{name:"モベントフロアブル",d:"2000倍",t:"前日",n:3},{name:"ベネビアOD",d:"2000倍",t:"前日",n:3},{name:"ウララDF",d:"2000～4000倍",t:"前日",n:3}]},
+      {name:"オオタバコガ",seasons:[6,7,8,9,10],varieties:["露地早熟","ハウス半促成","加温周年"],
+       notes:["広食性で多くの作物を加害する","早期発見に努め、若齢幼虫時に防除する"],preventive:[],
+       active:[{name:"アファーム乳剤",d:"2000倍",t:"前日",n:5},{name:"グレーシア乳剤",d:"2000倍",t:"前日",n:2},{name:"プレバソンフロアブル5",d:"2000倍",t:"前日",n:3},{name:"ディアナSC",d:"2500～5000倍",t:"前日",n:2},{name:"プレオフロアブル",d:"1000倍",t:"前日",n:2}]},
+      {name:"ハスモンヨトウ",seasons:[6,7,8,9,10,11],varieties:["ハウス半促成","加温周年"],
+       notes:["若齢幼虫の防除に重点を置く","薬剤抵抗性が生じやすいのでローテーション散布を行う"],preventive:[],
+       active:[{name:"グレーシア乳剤",d:"2000倍",t:"前日",n:2},{name:"ディアナSC",d:"2500～5000倍",t:"前日",n:2},{name:"ヨーバルフロアブル",d:"2500～5000倍",t:"前日",n:3},{name:"アクセルフロアブル",d:"1000～2000倍",t:"前日",n:3}]},
+      {name:"トマトキバガ",seasons:[5,6,7,8,9,10,11],varieties:["ハウス半促成","加温周年"],
+       notes:["令和5年10月に特殊報を発出","なす科植物全般で発生"],preventive:[],
+       active:[{name:"アファーム乳剤",d:"2000倍",t:"前日",n:5},{name:"グレーシア乳剤",d:"2000倍",t:"前日",n:2},{name:"コテツフロアブル",d:"2000倍",t:"前日",n:3},{name:"プレオフロアブル",d:"1000倍",t:"前日",n:2},{name:"ダブルシューターSE",d:"1000倍",t:"前日",n:2}]},
+      {name:"ハモグリバエ類",seasons:[3,4,5,6,7,8,9,10,11],varieties:["露地早熟","ハウス半促成","加温周年"],
+       notes:["施設内では一年中発生する","育苗期の防除を徹底し本ぽに被害苗を持ち込まない"],
+       preventive:[{name:"スタークル粒剤",d:"1～2g/株 株元散布",t:"育苗期",n:1}],
+       active:[{name:"アファーム乳剤",d:"2000倍",t:"前日",n:5},{name:"ディアナSC",d:"2500～5000倍",t:"前日",n:2},{name:"プレオフロアブル",d:"1000倍",t:"前日",n:2},{name:"ベネビアOD",d:"2000倍",t:"前日",n:3}]},
+      {name:"ハダニ類",seasons:[6,7,8,9],varieties:["露地早熟","ハウス半促成","加温周年"],
+       notes:["薬剤抵抗性が生じやすいのでローテーション散布を行う"],preventive:[],
+       active:[{name:"ダブルシューターSE",d:"1000倍",t:"前日",n:2},{name:"マイトコーネフロアブル",d:"1000倍",t:"前日",n:1},{name:"サンクリスタル乳剤",d:"300～600倍",t:"前日",n:0}]},
+      {name:"トマトサビダニ",seasons:[4,5,6,7,8,9,10,11],varieties:["露地早熟","ハウス半促成","加温周年"],
+       notes:["施設内や周辺の除草、植物残さの処理を徹底する"],preventive:[],
+       active:[{name:"アファーム乳剤",d:"2000倍",t:"前日",n:5},{name:"グレーシア乳剤",d:"2000倍",t:"前日",n:2},{name:"モベントフロアブル",d:"2000倍",t:"前日",n:3},{name:"マイトコーネフロアブル",d:"1000倍",t:"前日",n:1}]}
+    ]
+  },
+  { id:"minitomato", name:"ミニトマト", emoji:"🍒",
+    definition:"農薬取締法上では、果実の直径3cm以下のものを「ミニトマト」とします。「トマト」に適用があっても「ミニトマト」に適用のない農薬もあるので注意してください。",
+    diseases:[
+      {name:"疫病",seasons:[3,4,5,6,7,8,9,10,11,12],
+       notes:["低温（20℃前後）で多雨が続くと、発病が多くなる","予防的散布が大切である","QoI剤は耐性菌が出現しやすいので1作1回程度の使用に努める","同一系統薬剤の連用を避けローテーション散布を行う"],
+       preventive:[{name:"ランマンフロアブル",d:"1000～2000倍",t:"前日",n:4},{name:"ピシロックフロアブル",d:"1000倍",t:"前日",n:3},{name:"ペンコゼブフロアブル",d:"1000倍",t:"前日",n:2}],
+       active:[{name:"プロポーズ顆粒水和剤",d:"1500倍",t:"前日",n:2},{name:"レーバスフロアブル",d:"2000倍",t:"前日",n:3},{name:"ホライズンドライフロアブル",d:"1500～2500倍",t:"前日",n:3}]},
+      {name:"葉かび病",seasons:[3,4,5,6,7,8,9,10,11,12],
+       notes:["過湿条件で発生しやすい","草勢が衰えると発生しやすい","薬剤耐性菌が出現しやすいのでローテーション散布を行う","ベルクートフロアブルは眼に刺激性があるので注意する"],
+       preventive:[{name:"ダコニール1000",d:"1000倍",t:"前日",n:2},{name:"ベルクートフロアブル",d:"4000倍",t:"前日",n:2}],
+       active:[{name:"アフェットフロアブル",d:"2000倍",t:"前日",n:3},{name:"トリフミン水和剤",d:"3000～5000倍",t:"前日",n:5},{name:"ホライズンドライフロアブル",d:"2500倍",t:"前日",n:3}]},
+      {name:"すすかび病",seasons:[3,4,5,6,7,8,9,10,11,12],
+       notes:["過湿条件で発生しやすい","葉かび病と病徴が似ているため薬剤防除の際は注意する","ベルクートフロアブルは眼に刺激性があるので注意する"],
+       preventive:[{name:"ダコニール1000",d:"1000倍",t:"前日",n:2},{name:"ベルクートフロアブル",d:"4000倍",t:"前日",n:2}],
+       active:[{name:"パレード20フロアブル",d:"2000倍",t:"前日",n:3},{name:"ファンタジスタ顆粒水和剤",d:"2000～3000倍",t:"前日",n:3},{name:"ニマイバー水和剤",d:"1000倍",t:"前日",n:3}]},
+      {name:"灰色かび病",seasons:[1,2,3,4,5,6,7,8,9,10,11,12],
+       notes:["低温（20℃前後）で多湿時に発生が多い","QoI剤は耐性菌が出現しやすいので1作1回程度の使用に努める","ローテーション散布を行う","ベルクートフロアブルは眼に刺激性があるので注意する"],
+       preventive:[{name:"フルピカフロアブル",d:"2000～3000倍",t:"前日",n:4},{name:"ベルクートフロアブル",d:"4000倍",t:"前日",n:2}],
+       active:[{name:"ゲッター水和剤",d:"1500倍",t:"前日",n:3},{name:"ファンタジスタ顆粒水和剤",d:"2000～3000倍",t:"前日",n:3},{name:"ピクシオDF",d:"2000倍",t:"前日",n:4},{name:"ケンジャフロアブル",d:"1500倍",t:"前日",n:3},{name:"カリグリーン",d:"800倍",t:"前日",n:0}]},
+      {name:"うどんこ病",seasons:[3,4,5,6,7,8,9,10,11,12],
+       notes:["乾燥条件で気温20～25℃で発生が増える","ベルクートフロアブルは眼に刺激性があるので注意する"],
+       preventive:[{name:"ダコニール1000",d:"1000倍",t:"前日",n:2},{name:"ベルクートフロアブル",d:"4000倍",t:"前日",n:2},{name:"イオウフロアブル",d:"500～1000倍",t:"発病前～発病初期",n:0}],
+       active:[{name:"パレード20フロアブル",d:"2000～4000倍",t:"前日",n:3},{name:"パンチョTF顆粒水和剤",d:"2000倍",t:"前日",n:2},{name:"カリグリーン",d:"800～1000倍",t:"前日",n:0}]},
+      {name:"菌核病",seasons:[1,2,3,4,5,6,7,8,9,10,11,12],
+       notes:["気温20℃前後、多湿条件で発生が多い","QoI剤は耐性菌が出現しやすいので1作1回程度の使用に努める"],preventive:[],
+       active:[{name:"トップジンM水和剤",d:"1500～2000倍",t:"前日",n:5},{name:"ゲッター水和剤",d:"1500倍",t:"前日",n:3},{name:"パレード20フロアブル",d:"2000～4000倍",t:"前日",n:3},{name:"ファンタジスタ顆粒水和剤",d:"2000～3000倍",t:"前日",n:3},{name:"ピクシオDF",d:"2000倍",t:"前日",n:4}]},
+      {name:"輪紋病",seasons:[1,2,3,4,5,6,7,8,9,10,11,12],
+       notes:["施設栽培で発生が多い","高温乾燥時に発生が多い","予防的散布が大切である"],
+       preventive:[{name:"ダコニール1000",d:"1000倍",t:"前日",n:2},{name:"ペンコゼブフロアブル",d:"1000倍",t:"前日",n:2}],
+       active:[{name:"ロブラール水和剤",d:"1000倍",t:"前日",n:3},{name:"ネクスターフロアブル",d:"1000倍",t:"前日",n:3}]},
+      {name:"ウイルス病（黄化葉巻病など）",seasons:[3,4,5,6,7,8,9,10,11,12],
+       notes:["CMV、ToMV、TSWV、TYLCVなどがある","媒介昆虫（アブラムシ、アザミウマ、コナジラミ）の防除が重要","ハサミによる芽かきでウイルスが伝搬する可能性が高い"],
+       preventive:[],active:[]}
+    ],
+    pests:[
+      {name:"コナジラミ類",seasons:[3,4,5,6,7,8,9,10,11,12],
+       notes:["オンシツコナジラミ、タバココナジラミが発生","TYLCVを伝搬する","多発するとすす病が発生する","天敵寄生蜂の放飼を行う方法もある"],
+       preventive:[{name:"スタークル粒剤",d:"1～2g/株 株元散布",t:"育苗期",n:1},{name:"アルバリン粒剤",d:"1～2g/株 株元散布",t:"育苗期",n:1},{name:"ベリマークSC",d:"400株あたり25ml かん注",t:"育苗期後半～定植",n:1}],
+       active:[{name:"アファーム乳剤",d:"2000倍",t:"前日",n:5},{name:"グレーシア乳剤",d:"2000倍",t:"前日",n:2},{name:"ディアナSC",d:"2500倍",t:"前日",n:2},{name:"ベストガード水溶剤",d:"1000～2000倍",t:"前日",n:3}]},
+      {name:"アブラムシ類",seasons:[3,4,5,6,7,8,9,10,11,12],
+       notes:["薬剤抵抗性が生じやすいのでローテーション散布を行う","ダントツ粒剤による事前防除が有効"],
+       preventive:[{name:"ダントツ粒剤",d:"1g/株 株元処理",t:"育苗期",n:1},{name:"ベリマークSC",d:"400株あたり25ml かん注",t:"育苗期後半～定植",n:1}],
+       active:[{name:"コルト顆粒水和剤",d:"4000倍",t:"前日",n:3},{name:"トランスフォームフロアブル",d:"2000倍",t:"前日",n:2},{name:"モベントフロアブル",d:"2000倍",t:"前日",n:3},{name:"ウララDF",d:"2000～4000倍",t:"前日",n:3}]},
+      {name:"オオタバコガ",seasons:[5,6,7,8,9,10,11],
+       notes:["多犯性で多くの作物を加害する","老齢幼虫には薬剤効果が劣るため若齢幼虫時に防除する"],preventive:[],
+       active:[{name:"アファーム乳剤",d:"2000倍",t:"前日",n:5},{name:"グレーシア乳剤",d:"2000倍",t:"前日",n:2},{name:"プレバソンフロアブル5",d:"2000倍",t:"前日",n:3},{name:"プレオフロアブル",d:"1000倍",t:"前日",n:2}]},
+      {name:"ハスモンヨトウ",seasons:[4,5,6,7,8,9,10,11],
+       notes:["若齢幼虫の防除に重点を置く","薬剤抵抗性が生じやすいのでローテーション散布を行う"],preventive:[],
+       active:[{name:"グレーシア乳剤",d:"2000倍",t:"前日",n:2},{name:"ディアナSC",d:"2500～5000倍",t:"前日",n:2},{name:"プレオフロアブル",d:"1000倍",t:"前日",n:2},{name:"アクセルフロアブル",d:"1000～2000倍",t:"前日",n:3},{name:"アニキ乳剤",d:"2000倍",t:"前日",n:3}]},
+      {name:"トマトキバガ",seasons:[4,5,6,7,8,9,10,11],
+       notes:["なす科植物で発生する","令和5年10月に特殊報を発出した"],preventive:[],
+       active:[{name:"アファーム乳剤",d:"2000倍",t:"前日",n:5},{name:"グレーシア乳剤",d:"2000倍",t:"前日",n:2},{name:"コテツフロアブル",d:"2000倍",t:"前日",n:3},{name:"プレオフロアブル",d:"1000倍",t:"前日",n:2},{name:"ダブルシューターSE",d:"1000倍",t:"前日",n:2}]},
+      {name:"ハモグリバエ類",seasons:[3,4,5,6,7,8,9,10,11,12],
+       notes:["マメハモグリバエ、トマトハモグリバエなどが発生する","施設内では一年中発生する","育苗期の防除を徹底する"],
+       preventive:[{name:"スタークル粒剤",d:"1～2g/株 株元散布",t:"育苗期",n:1},{name:"アルバリン粒剤",d:"1～2g/株 株元散布",t:"育苗期",n:1}],
+       active:[{name:"アファーム乳剤",d:"2000倍",t:"前日",n:5},{name:"ディアナSC",d:"2500～5000倍",t:"前日",n:2},{name:"プレオフロアブル",d:"1000倍",t:"前日",n:2},{name:"ベネビアOD",d:"2000倍",t:"前日",n:3}]},
+      {name:"ハダニ類",seasons:[5,6,7,8,9,10],
+       notes:["薬剤抵抗性が生じやすいのでローテーション散布を行う"],preventive:[],
+       active:[{name:"ダブルシューターSE",d:"1000倍",t:"前日",n:2},{name:"マイトコーネフロアブル",d:"1000倍",t:"前日",n:1},{name:"サンクリスタル乳剤",d:"300～600倍",t:"前日",n:0}]},
+      {name:"トマトサビダニ",seasons:[4,5,6,7,8,9,10,11],
+       notes:["施設内や周辺の除草、植物残さの処理を徹底する"],preventive:[],
+       active:[{name:"アファーム乳剤",d:"2000倍",t:"前日",n:5},{name:"グレーシア乳剤",d:"2000倍",t:"前日",n:2},{name:"モベントフロアブル",d:"2000倍",t:"前日",n:3},{name:"マイトコーネフロアブル",d:"1000倍",t:"前日",n:1}]}
+    ]
+  }
+  ,{ id:"sweetcorn", name:"スイートコーン", emoji:"🌽",
+    definition:"農薬取締法上、未成熟とうもろこし（スイートコーン）は「穀類」に分類されます。「野菜類」で登録された農薬は使用できません。「未成熟とうもろこし」「とうもろこし」「穀類」に登録のある農薬のみ使用可能です。",
+    diseases:[
+      {name:"苗立枯病", seasons:[3,4,5,6],
+       notes:["は種前の種子にベンレートT水和剤20を粉衣する"],
+       preventive:[{name:"ベンレートT水和剤20",d:"乾燥種子重量の0.5％ 粉衣",t:"は種前",n:1}],
+       active:[]}
+    ],
+    pests:[
+      {name:"アブラムシ類", seasons:[4,5,6,7,8],
+       notes:["薬剤抵抗性が生じやすいので、同一系統薬剤の連用を避け、ローテーション散布を行う"],
+       preventive:[],
+       active:[
+         {name:"モスピラン顆粒水溶剤",d:"2000～4000倍",t:"前日",n:3},
+         {name:"アグロスリン乳剤",d:"1000～2000倍",t:"7日前",n:3},
+         {name:"オルトラン水和剤",d:"1000倍",t:"7日前",n:2},
+         {name:"コルト顆粒水和剤",d:"4000倍",t:"前日",n:3}
+       ]},
+      {name:"アワノメイガ", seasons:[5,6,7,8],
+       notes:["成虫が雄穂に産卵し、ふ化した幼虫が茎や子実に移動食入する","幼虫が食入してしまうと農薬が効かないので防除時期を逸しないよう注意","雄穂の先端が見え始めた頃に散布する"],
+       preventive:[],
+       active:[
+         {name:"トレボン乳剤",d:"1000倍",t:"7日前",n:4},
+         {name:"フェニックス顆粒水和剤",d:"2000～4000倍",t:"前日",n:2},
+         {name:"スミチオン乳剤",d:"1000倍",t:"7日前",n:4},
+         {name:"マトリックフロアブル",d:"2000倍",t:"前日",n:3}
+       ]},
+      {name:"オオタバコガ", seasons:[5,6,7,8,9],
+       notes:["薬剤抵抗性が生じやすいので、同一系統薬剤の連用を避け、ローテーション散布を行う","発生を認めたら散布する"],
+       preventive:[],
+       active:[
+         {name:"プレオフロアブル",d:"1000倍",t:"前日",n:2},
+         {name:"アファーム乳剤",d:"1000～2000倍",t:"3日前",n:2},
+         {name:"デルフィン顆粒水和剤",d:"1000倍",t:"前日",n:0},
+         {name:"コテツフロアブル",d:"2000倍",t:"前日",n:2},
+         {name:"フェニックス顆粒水和剤",d:"2000～4000倍",t:"前日",n:2}
+       ]},
+      {name:"アワヨトウ", seasons:[4,5,6,7,8,9],
+       notes:["幼虫がとうもろこしの葉の周縁部を食害する","生育初期から被害があるため被害を見落とさないよう注意"],
+       preventive:[],
+       active:[
+         {name:"トレボン乳剤",d:"1000倍",t:"7日前",n:4},
+         {name:"アグロスリン乳剤",d:"1000倍",t:"7日前",n:3}
+       ]}
+    ]
+  }
+
+  ,{ id:"ichijiku", name:"いちじく", emoji:"🍈",
+    diseases:[
+      {name:"疫病", seasons:[5,6,7,8,9,10],
+       notes:["桝井ドーフィンで発病しやすい","降雨前の散布が効果的","QoI剤は耐性菌が出現しやすいので1作1回程度の使用に努める","窒素質肥料の過多を避け、通風・採光をよくする","排水不良園では排水溝を設け排水をよくする"],
+       preventive:[
+         {name:"Zボルドー",d:"1000倍",t:"-",n:0},
+         {name:"ランマンフロアブル",d:"2000倍",t:"前日",n:3},
+         {name:"ライメイフロアブル",d:"3000倍",t:"前日",n:3}
+       ],
+       active:[
+         {name:"レーバスフロアブル",d:"2000倍",t:"前日",n:3},
+         {name:"アミスター10フロアブル",d:"1000倍",t:"前日",n:3}
+       ]},
+      {name:"株枯病", seasons:[4,5,6,7,8,9,10],
+       notes:["アイノキクイムシによっても媒介されると考えられている","苗木や土壌などで病原菌を持ち込まない","発生が見込まれる時期に1か月に1回程度かん注する"],
+       preventive:[],
+       active:[
+         {name:"オンリーワンフロアブル",d:"2000倍 5～10L/樹",t:"前日",n:3},
+         {name:"トリフミン水和剤",d:"500倍 1～10L/株",t:"前日",n:4},
+         {name:"トップジンM水和剤",d:"500倍 1～10L/株",t:"前日",n:6},
+         {name:"ICボルドー66D",d:"2～4倍 1～5L/樹 株元かん注",t:"-",n:0}
+       ]},
+      {name:"黒かび病", seasons:[7,8,9,10,11],
+       notes:["長雨が続くと発病が多くなり収穫期間中の風雨後に多発する","収穫開始前までの予防散布が効果的","ダコニール1000は果実肥大期初期または夏期高温時の散布は避ける"],
+       preventive:[
+         {name:"トップジンM水和剤",d:"1000～1500倍",t:"7日前",n:5},
+         {name:"ダコニール1000",d:"2000倍",t:"前日",n:2}
+       ],
+       active:[]},
+      {name:"さび病", seasons:[5,6,7,8,9,10],
+       notes:["QoI剤は耐性菌が出現しやすいので1作1回程度の使用に努める","冬期に園内の落葉を集めてほ場外に持ち出して処分する"],
+       preventive:[],
+       active:[
+         {name:"トリフミン水和剤",d:"2000倍",t:"前日",n:3},
+         {name:"アンビルフロアブル",d:"1000倍",t:"前日",n:2},
+         {name:"ラリー水和剤",d:"2000倍",t:"前日",n:4},
+         {name:"アミスター10フロアブル",d:"1000倍",t:"前日",n:3}
+       ]}
+    ],
+    pests:[
+      {name:"アザミウマ類", seasons:[5,6,7,8,9,10],
+       notes:["果実の直径が2.5cmになった時の散布が効果的","薬剤抵抗性が生じやすいのでローテーション散布を行う","乱反射型光拡散シートのマルチ設置や赤色ネットで囲うことで成虫の侵入を抑える"],
+       preventive:[],
+       active:[
+         {name:"ディアナWDG",d:"5000倍",t:"前日",n:2},
+         {name:"アディオン乳剤",d:"2000倍",t:"前日",n:2},
+         {name:"グレーシア乳剤",d:"2000倍",t:"前日",n:2},
+         {name:"モスピラン顆粒水溶剤",d:"2000倍",t:"前日",n:3},
+         {name:"コテツフロアブル",d:"2000倍",t:"前日",n:2}
+       ]},
+      {name:"コナカイガラムシ類", seasons:[3,6,7,8,9,10],
+       notes:["3月中旬（発芽前）と第1世代孵化幼虫発生期（6月上～中旬）に防除する"],
+       preventive:[
+         {name:"石灰硫黄合剤",d:"7～10倍",t:"発芽前",n:0}
+       ],
+       active:[
+         {name:"モスピラン顆粒水溶剤",d:"2000倍",t:"前日",n:3},
+         {name:"アプロードフロアブル",d:"1000倍",t:"14日前",n:2}
+       ]},
+      {name:"イチジクヒトリモドキ", seasons:[5,6,7,8,9,10],
+       notes:["5月下旬から10月にかけて5世代程発生する","幼虫は若齢～中齢の間は群生して加害するため分散前に寄生葉を取り除いて処分する"],
+       preventive:[],
+       active:[
+         {name:"アディオン乳剤",d:"3000倍",t:"前日",n:2},
+         {name:"モスピラン顆粒水溶剤",d:"2000倍",t:"前日",n:3}
+       ]},
+      {name:"カミキリムシ類", seasons:[5,6,7,8,9],
+       notes:["キボシカミキリとクワカミキリの食害が多い","凍霜害や日焼けで樹勢が衰えた樹が被害を受けやすい","成虫は見つけ次第捕殺する","食入孔に針金を差し込んで幼虫を刺殺する"],
+       preventive:[
+         {name:"バイオリサ･カミキリ",d:"1本/1樹",t:"成虫発生初期",n:0}
+       ],
+       active:[
+         {name:"ダントツ水溶剤",d:"2000倍",t:"3日前",n:3},
+         {name:"モスピラン顆粒水溶剤",d:"2000倍",t:"前日",n:3},
+         {name:"園芸用キンチョールE",d:"原液 食入部に噴射",t:"前日",n:2}
+       ]},
+      {name:"アイノキクイムシ", seasons:[4,5,7,8],
+       notes:["越冬成虫発生期（4月上旬～5月上旬）と夏世代成虫発生期（7月中旬～8月下旬）に薬剤を塗布","ガットサイドSの薬液が葉にかからないよう注意"],
+       preventive:[],
+       active:[
+         {name:"ガットサイドS",d:"原液または1.5倍 主幹部塗布",t:"7日前",n:3}
+       ]},
+      {name:"ショウジョウバエ類", seasons:[8,9,10,11],
+       notes:["過熟果や腐敗果は発生源となるので園外に持ち出して処分する","幼虫の寄生による腐敗臭でハチ・コガネムシ類等が誘引されることがある"],
+       preventive:[],
+       active:[
+         {name:"ディアナWDG",d:"10000倍",t:"前日",n:2},
+         {name:"コテツフロアブル",d:"2000倍",t:"前日",n:2},
+         {name:"アーデント水和剤",d:"1000倍",t:"前日",n:2}
+       ]},
+      {name:"ハダニ類", seasons:[3,5,6,7,8,9,10],
+       notes:["葉裏をねらい丁寧に散布すると効果的","薬剤抵抗性が生じやすいのでローテーション散布を行う","3月中旬（発芽前）に石灰硫黄合剤を散布する"],
+       preventive:[
+         {name:"石灰硫黄合剤",d:"7～10倍",t:"発芽前",n:0}
+       ],
+       active:[
+         {name:"ダニトロンフロアブル",d:"1000～2000倍",t:"3日前",n:1},
+         {name:"ニッソラン水和剤",d:"2000～3000倍",t:"前日",n:2},
+         {name:"マイトコーネフロアブル",d:"1000倍",t:"前日",n:1},
+         {name:"サンクリスタル乳剤",d:"600倍",t:"前日",n:0},
+         {name:"ダニコングフロアブル",d:"2000倍",t:"前日",n:1}
+       ]},
+      {name:"イチジクモンサビダニ", seasons:[6,7,8],
+       notes:["発生期（6～7月）に散布する"],
+       preventive:[],
+       active:[
+         {name:"ダニトロンフロアブル",d:"2000倍",t:"3日前",n:1},
+         {name:"サンマイト水和剤",d:"1000～1500倍",t:"45日前",n:1},
+         {name:"ピラニカ水和剤",d:"2000倍",t:"7日前",n:1}
+       ]},
+      {name:"ネコブセンチュウ", seasons:[3,4],
+       notes:["根にこぶが発生し樹勢衰弱を認めたら3月下旬に樹冠下処理する","粒剤散布後に軽く土壌混和すると効果が高い"],
+       preventive:[],
+       active:[
+         {name:"ネマトリンエース粒剤",d:"20kg/10a",t:"60日前",n:1}
+       ]}
+    ]
+  }
+
+  // 野菜追加: { id, na
+  // 野菜追加: { id, name, emoji, definition(省略可), diseases:[...], pests:[...] }
+];
+
+var MN = ["1月","2月","3月","4月","5月","6月","7月","8月","9月","10月","11月","12月"];
+var cropId = CROPS[0].id;
+var selMonths = [];
+
+function getCrop(){
+  for(var i=0;i<CROPS.length;i++) if(CROPS[i].id===cropId) return CROPS[i];
+}
+function enterApp(){
+  document.getElementById("cover").style.display="none";
+  document.getElementById("app").style.display="block";
+}
+function goBack(){
+  document.getElementById("cover").style.display="flex";
+  document.getElementById("app").style.display="none";
+}
+function init(){
+  var tabs=document.getElementById("crop-tabs");
+  tabs.innerHTML="";
+  for(var i=0;i<CROPS.length;i++){
+    (function(c){
+      var btn=document.createElement("button");
+      btn.className="ctab"+(c.id===cropId?" on":"");
+      btn.textContent=c.emoji+" "+c.name;
+      btn.onclick=function(){
+        cropId=c.id;
+        document.querySelectorAll(".ctab").forEach(function(b){b.classList.remove("on");});
+        btn.classList.add("on");
+        selMonths=[];
+        buildGrid();
+        renderDef();
+        document.getElementById("r-count").textContent="";
+        document.getElementById("results").innerHTML="";
+      };
+      tabs.appendChild(btn);
+    })(CROPS[i]);
+  }
+  buildGrid();
+  renderDef();
+}
+function renderDef(){
+  var c=getCrop();
+  var el=document.getElementById("def-area");
+  el.innerHTML="";
+  if(c.definition){
+    var d=document.createElement("div");
+    d.className="def-box";
+    d.innerHTML="<strong>"+c.name+"について：</strong>"+c.definition;
+    el.appendChild(d);
+  }
+}
+function buildGrid(){
+  var grid=document.getElementById("mgrid");
+  grid.innerHTML="";
+  for(var i=0;i<12;i++){
+    (function(m,label){
+      var div=document.createElement("div");
+      div.className="mc"+(selMonths.indexOf(m)!==-1?" on":"");
+      div.textContent=label;
+      div.onclick=function(){
+        var idx=selMonths.indexOf(m);
+        if(idx===-1) selMonths.push(m); else selMonths.splice(idx,1);
+        buildGrid();
+        renderResults();
+      };
+      grid.appendChild(div);
+    })(i+1, MN[i]);
+  }
+}
+function renderResults(){
+  var rc=document.getElementById("r-count");
+  var re=document.getElementById("results");
+  if(!selMonths.length){rc.textContent="";re.innerHTML="";return;}
+  var crop=getCrop();
+  var all=[];
+  var i;
+  for(i=0;i<crop.diseases.length;i++) all.push({item:crop.diseases[i],type:"d"});
+  for(i=0;i<crop.pests.length;i++) all.push({item:crop.pests[i],type:"p"});
+  var hit=[];
+  for(i=0;i<all.length;i++){
+    var seas=all[i].item.seasons;
+    for(var j=0;j<selMonths.length;j++){
+      if(seas.indexOf(selMonths[j])!==-1){hit.push(all[i]);break;}
+    }
+  }
+  var sorted=selMonths.slice().sort(function(a,b){return a-b;});
+  var lab=sorted.map(function(m){return MN[m-1];}).join("・");
+  rc.textContent=hit.length>0?lab+"に発生する病害虫："+hit.length+"件":lab+"に該当する病害虫はありません";
+  re.innerHTML="";
+  for(i=0;i<hit.length;i++) re.appendChild(buildCard(hit[i].item,hit[i].type));
+}
+function buildCard(item,type){
+  var isD=type==="d";
+  var i,k;
+  var card=document.createElement("div");
+  card.className="rcard";
+  card.onclick=function(){this.classList.toggle("open");};
+
+  var head=document.createElement("div");
+  head.className="rhead";
+
+  var badge=document.createElement("span");
+  badge.className="badge "+(isD?"bd":"bp");
+  badge.textContent=isD?"病害":"害虫";
+  head.appendChild(badge);
+
+  var rname=document.createElement("span");
+  rname.className="rname";
+  rname.textContent=item.name;
+  head.appendChild(rname);
+
+  var spills=document.createElement("div");
+  spills.className="spills";
+  for(i=0;i<12;i++){
+    var m=i+1;
+    if(item.seasons.indexOf(m)!==-1){
+      var sp=document.createElement("span");
+      sp.className="sp"+(selMonths.indexOf(m)!==-1?" hit":"");
+      sp.textContent=MN[i];
+      spills.appendChild(sp);
+    }
+  }
+  head.appendChild(spills);
+
+  var chev=document.createElement("span");
+  chev.className="chev";
+  chev.textContent="▼";
+  head.appendChild(chev);
+  card.appendChild(head);
+
+  var body=document.createElement("div");
+  body.className="rbody";
+
+  if(item.varieties&&item.varieties.length){
+    var vpills=document.createElement("div");
+    vpills.className="vpills";
+    for(i=0;i<item.varieties.length;i++){
+      var vp=document.createElement("span");
+      vp.className="vp";
+      vp.textContent="📌 "+item.varieties[i];
+      vpills.appendChild(vp);
+    }
+    body.appendChild(vpills);
+  }
+
+  if(item.notes&&item.notes.length){
+    var nsec=document.createElement("div");
+    nsec.className="nsec";
+    var sl=document.createElement("div");
+    sl.className="slabel";
+    sl.textContent="防除のポイント";
+    nsec.appendChild(sl);
+    for(i=0;i<item.notes.length;i++){
+      var ni=document.createElement("div");
+      ni.className="ni";
+      ni.textContent=item.notes[i];
+      nsec.appendChild(ni);
+    }
+    body.appendChild(nsec);
+  }
+
+  function addBlock(list,cls,lab){
+    if(!list||!list.length) return;
+    var psec=document.createElement("div");
+    psec.className="psec";
+    var pt=document.createElement("div");
+    pt.className="ptitle "+cls;
+    pt.textContent=lab;
+    psec.appendChild(pt);
+    for(k=0;k<list.length;k++){
+      var p=list[k];
+      var pitem=document.createElement("div");
+      pitem.className="pitem";
+      var pname=document.createElement("div");
+      pname.className="pname";
+      pname.textContent=p.name;
+      pitem.appendChild(pname);
+      var ptimes=document.createElement("div");
+      ptimes.className="ptimes"+(p.n===0?" ul":"");
+      ptimes.textContent=p.n===0?"回数制限なし":p.n+"回以内";
+      pitem.appendChild(ptimes);
+      var pdet=document.createElement("div");
+      pdet.className="pdet";
+      pdet.textContent="希釈："+p.d+"　収穫前日数："+p.t;
+      pitem.appendChild(pdet);
+      psec.appendChild(pitem);
+    }
+    body.appendChild(psec);
+  }
+
+  addBlock(item.preventive,"prev","🔵 予防散布");
+  addBlock(item.active,"pact","🟠 発生時散布");
+
+  if((!item.preventive||!item.preventive.length)&&(!item.active||!item.active.length)){
+    var np=document.createElement("div");
+    np.className="nopest";
+    np.textContent="登録農薬なし（耕種的防除・予防管理が中心）";
+    body.appendChild(np);
+  }
+
+  card.appendChild(body);
+  return card;
+}
+init();
+
+</script>
+</body>
+</html>
