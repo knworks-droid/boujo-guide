@@ -63,6 +63,8 @@ body{font-family:'Noto Sans JP',sans-serif}
 .ptimes.ul{background:#9a8070}
 .pdet{font-size:11px;color:#8a7060;line-height:1.5}
 .nopest{font-size:12px;color:#9a8070;padding:8px 0}
+.psrch{display:inline-flex;align-items:center;justify-content:center;margin-left:6px;font-size:11px;text-decoration:none;background:#f0e8d8;border:1px solid var(--bdr);border-radius:6px;padding:1px 5px;vertical-align:middle;line-height:1;transition:background .2s;}
+.psrch:hover{background:var(--straw);}
 @media(max-width:480px){.c-title{font-size:26px}.a-body{padding:16px 12px 40px}.mc{font-size:9px}}
 
 </style>
@@ -577,6 +579,15 @@ function buildCard(item,type){
       var pname=document.createElement("div");
       pname.className="pname";
       pname.textContent=p.name;
+      var psrch=document.createElement("a");
+      psrch.className="psrch";
+      psrch.textContent="🔍";
+      psrch.title="農水省で検索";
+      psrch.href="https://www.google.com/search?q="+encodeURIComponent(p.name+"+site:pesticide.maff.go.jp");
+      psrch.target="_blank";
+      psrch.rel="noopener noreferrer";
+      psrch.onclick=function(e){e.stopPropagation()};
+      pname.appendChild(psrch);
       pitem.appendChild(pname);
       var ptimes=document.createElement("div");
       ptimes.className="ptimes"+(p.n===0?" ul":"");
