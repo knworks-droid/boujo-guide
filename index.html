@@ -583,7 +583,7 @@ function buildCard(item,type){
       psrch.className="psrch";
       psrch.textContent="🔍";
       psrch.title="農水省で検索";
-      psrch.href="https://www.google.com/search?q="+encodeURIComponent(p.name+"+site:pesticide.maff.go.jp");
+      psrch.href="https://www.google.com/search?q="+encodeURIComponent(p.name+" site:pesticide.maff.go.jp");
       psrch.target="_blank";
       psrch.rel="noopener noreferrer";
       psrch.onclick=function(e){e.stopPropagation()};
